@@ -1,0 +1,26 @@
+{
+  "name": "array-reduce-compare",
+  "version": "0.0.1",
+  "description": "Reduces an array like Array.prototype.reduce, but with an additional compare function to stop the reduction.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StefanJelner/array-reduce-compare.git"
+  },
+  "keywords": [
+    "javascript",
+    "typescript",
+    "array",
+    "reduce",
+    "break",
+    "stop",
+    "compare"
+  ],
+  "author": "Stefan Jelner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StefanJelner/array-reduce-compare/issues"
+  },
+  "homepage": "https://github.com/StefanJelner/array-reduce-compare#readme"
+}
