@@ -17,7 +17,7 @@ function reduceCompare(arr, cb, cmp, init) {
  * @param init The optional intial value. If omitted, the first array element will be taken.
  * @returns The product of the reduction
  */
-export function reduceCompare<A = unknown, B = unknown>(
+export default function reduceCompare<A = unknown, B = unknown>(
     arr: Array<A>
     , cb: (
         acc: B

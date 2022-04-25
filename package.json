@@ -2,8 +2,9 @@
   "name": "array-reduce-compare",
   "version": "0.0.1",
   "description": "Reduces an array like Array.prototype.reduce, but with an additional compare function to stop the reduction.",
-  "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "rollup -c"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/StefanJelner/array-reduce-compare.git"
@@ -22,5 +23,22 @@
   "bugs": {
     "url": "https://github.com/StefanJelner/array-reduce-compare/issues"
   },
-  "homepage": "https://github.com/StefanJelner/array-reduce-compare#readme"
+  "homepage": "https://github.com/StefanJelner/array-reduce-compare#readme",
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^21.1.0",
+    "@rollup/plugin-node-resolve": "^13.2.1",
+    "@rollup/plugin-typescript": "^8.3.2",
+    "rollup": "^2.70.2",
+    "rollup-plugin-filesize": "^9.1.2",
+    "rollup-plugin-progress": "^1.1.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-visualizer": "^5.6.0",
+    "typescript": "^4.6.3"
+  },
+  "browser": "dist/array-reduce-compare.iife.js",
+  "module": "dist/array-reduce-compare.es.js",
+  "main": "dist/array-reduce-compare.umd.js"
 }
