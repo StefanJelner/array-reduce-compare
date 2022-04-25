@@ -24,11 +24,11 @@ The native [`Array.prototype.reduce()`](https://developer.mozilla.org/en-US/docs
 
 Some people try to overcome this problem by using a [`for`](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Statements/for)-loop together with [`break`](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Statements/break), which usually makes a lot of mutations necessary.
 
-Some people use [`Array.prototype.reduce()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce), but implement a mechanism which uses [Array.prototype.splice()](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Array/splice) to manipulate a clone of the original array, which again contains a mutation.
+Some people use [`Array.prototype.reduce()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce), but implement a mechanism which uses [`Array.prototype.splice()`](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Array/splice) to manipulate a clone of the original array, which again contains a mutation.
 
-Some people provide a rewrite which hands over a callback, which sets a variable in the outer scope, so the whole process stops, returning the result. This still mutates a variable in the outer scope.
+Some people provide a rewrite which hands over a callback, which sets a variable in the outer scope, so the whole process stops, finally returning the result. This still mutates a variable in the outer scope.
 
-A final - and rather funny - approach is to use [`throw`](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Statements/throw) in a [`try...catch`](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Statements/try...catch)-block and stop the reduction this way, which works without any mutations, but abuses a mechanism with many unwanted side effects. It has a smell of "don't do this at home"!
+A final - and rather funny - approach is to use [`throw`](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Statements/throw) in a [`try...catch`](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Statements/try...catch)-block and stop the reduction this way, which works without any mutations, but abuses a mechanism with many unwanted side effects. It has a smell of *"don't do this at home"*!
 
 For the discussion see Stackoverflow:
 https://stackoverflow.com/questions/36144406/how-to-early-break-reduce-method
@@ -51,14 +51,42 @@ Copy the file `/dist/array-reduce-compare.iife.min.js` and add the following to 
             return acc + curr;
         }
 
-        console.log(reduceCompare(arr, join, function(acc) { return acc.length < 1; }, '')); // logs 'a'
+        console.log(
+            reduceCompare(
+                arr,
+                join,
+                function(acc) { return acc.length < 1; },
+                ''
+            )
+        ); // logs 'a'
 
-        console.log(reduceCompare(arr, join, function(acc, curr) { return curr !== 'c'; }, '')); // logs 'ab'
+        console.log(
+            reduceCompare(
+                arr,
+                join,
+                function(acc, curr) { return curr !== 'c'; },
+                ''
+            )
+        ); // logs 'ab'
 
-        console.log(reduceCompare(arr, join, function(acc, curr, i) { return i < 4; }, '')); // logs 'abc'
+        console.log(
+            reduceCompare(
+                arr,
+                join,
+                function(acc, curr, i) { return i < 4; },
+                ''
+            )
+        ); // logs 'abc'
 
         // same as the native Array.prototype.reduce(), so try to avoid doing this
-        console.log(reduceCompare(arr, join, function() { return true; }, '')); // logs 'abcd'
+        console.log(
+            reduceCompare(
+                arr,
+                join,
+                function() { return true; },
+                ''
+            )
+        ); // logs 'abcd'
     });
 </script>
 ```
@@ -89,14 +117,42 @@ document.addEventListener('DOMContentLoaded', () => {
         return acc + curr;
     }
 
-    console.log(reduceCompare(arr, join, (acc: string): boolean => acc.length < 1, '')); // logs 'a'
+    console.log(
+        reduceCompare(
+            arr,
+            join,
+            (acc: string): boolean => acc.length < 1,
+            ''
+        )
+    ); // logs 'a'
 
-    console.log(reduceCompare(arr, join, (acc: string, curr: string): boolean => curr !== 'c', '')); // logs 'ab'
+    console.log(
+        reduceCompare(
+            arr,
+            join,
+            (acc: string, curr: string): boolean => curr !== 'c',
+            ''
+        )
+    ); // logs 'ab'
 
-    console.log(reduceCompare(arr, join, (acc: string, curr: string, i: number): boolean => i < 4, '')); // logs 'abc'
+    console.log(
+        reduceCompare(
+            arr,
+            join,
+            (acc: string, curr: string, i: number): boolean => i < 4,
+            ''
+        )
+    ); // logs 'abc'
 
     // same as the native Array.prototype.reduce(), so try to avoid doing this
-    console.log(reduceCompare(arr, join, (): boolean => true, '')); // logs 'abcd'
+    console.log(
+        reduceCompare(
+            arr,
+            join,
+            (): boolean => true,
+            ''
+        )
+    ); // logs 'abcd'
 });
 ```
 
@@ -127,7 +183,7 @@ function reduceCompare<A = unknown, B = unknown>(
 
 The function arguments `arr` for the array, `cb` for the callback and `init` for the initial value are the same as the ones in [`Array.prototype.reduce()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce). The function also throws the same errors in the same situations.
 
-The only new argument is the third argument `cmp`, which is the compare function. It accepts the same argument as the callback function `cb`. If it is undefined or does not have the type `function`, an error will be thrown. `cmp` **MUST** return a `boolean`, which indicates, whether to continue the reduction or not.
+The only new argument is the third argument `cmp`, which is the compare function. It accepts the same argument as the callback function `cb`. If it is `undefined` or does not have the type `function`, an error will be thrown. `cmp` **MUST** return a `boolean`, which indicates, whether to continue the reduction or not.
 
 ---
 
