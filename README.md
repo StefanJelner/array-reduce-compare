@@ -137,7 +137,7 @@ or
 ## <a name="typescript"></a> Usage in TypeScript (and ES6)
 
 ```ts
-import reduceCompare from 'node_modules/array-reduce-compare';
+import reduceCompare from 'array-reduce-compare';
 
 document.addEventListener('DOMContentLoaded', () => {
     const arr: Array<string> = ['a', 'b', 'c', 'd'];
