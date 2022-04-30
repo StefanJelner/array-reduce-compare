@@ -73,7 +73,7 @@ Copy the file `/dist/array-reduce-compare.iife.min.js` and add the following to 
             reduceCompare(
                 arr,
                 join,
-                function(acc, curr, i) { return i < 4; },
+                function(acc, curr, i) { return i < 3; },
                 ''
             )
         ); // logs 'abc'
@@ -87,6 +87,35 @@ Copy the file `/dist/array-reduce-compare.iife.min.js` and add the following to 
                 ''
             )
         ); // logs 'abcd'
+
+        var obj = {
+            'a': 'b',
+            'b': 'c',
+            'c': 'd',
+            'd': 'e'
+        };
+
+        console.log(
+            reduceCompare(
+                Object.keys(obj),
+                function(acc, key) {
+                    var tmp = {};
+                    tmp[obj[key]] = key;
+
+                    return Object.assign({}, acc, tmp);
+                },
+                function(_, key) { return key !== 'd'; },
+                {}
+            )
+        );
+        /*
+            logs:
+            {
+                'b': 'a',
+                'c': 'b',
+                'd': 'c'
+            }
+        */
     });
 </script>
 ```
@@ -118,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     console.log(
-        reduceCompare(
+        reduceCompare<string, string>(
             arr,
             join,
             (acc: string): boolean => acc.length < 1,
@@ -127,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ); // logs 'a'
 
     console.log(
-        reduceCompare(
+        reduceCompare<string, string>(
             arr,
             join,
             (acc: string, curr: string): boolean => curr !== 'c',
@@ -136,23 +165,50 @@ document.addEventListener('DOMContentLoaded', () => {
     ); // logs 'ab'
 
     console.log(
-        reduceCompare(
+        reduceCompare<string, string>(
             arr,
             join,
-            (acc: string, curr: string, i: number): boolean => i < 4,
+            (acc: string, curr: string, i: number): boolean => i < 3,
             ''
         )
     ); // logs 'abc'
 
     // same as the native Array.prototype.reduce(), so try to avoid doing this
     console.log(
-        reduceCompare(
+        reduceCompare<string, string>(
             arr,
             join,
             (): boolean => true,
             ''
         )
     ); // logs 'abcd'
+
+    const obj = {
+        'a': 'b',
+        'b': 'c',
+        'c': 'd',
+        'd': 'e'
+    };
+
+    console.log(
+        reduceCompare<string, Record<string, string>>(
+            Object.keys(obj),
+            (acc: Record<string, string>, key: string) => ({
+                ...acc
+                , [obj[key]]: key
+            }),
+            (_, key: string): boolean => key !== 'd',
+            {}
+        )
+    );
+    /*
+        logs:
+        {
+            'b': 'a',
+            'c': 'b',
+            'd': 'c'
+        }
+    */
 });
 ```
 
